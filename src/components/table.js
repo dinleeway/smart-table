@@ -10,14 +10,21 @@ import {cloneTemplate} from "../lib/utils.js";
 export function initTable(settings, onAction) {
     const {tableTemplate, rowTemplate, before, after} = settings;
     const root = cloneTemplate(tableTemplate);
-
+    
     // @todo: #1.2 —  вывести дополнительные шаблоны до и после таблицы
 
     // @todo: #1.3 —  обработать события и вызвать onAction()
 
     const render = (data) => {
         // @todo: #1.1 — преобразовать данные в массив строк на основе шаблона rowTemplate
-        const nextRows = [];
+        const nextRows = data.map((item) => {
+                const row = cloneTemplate(rowTemplate);
+                row.elements.date.textContent = item.date;
+                row.elements.customer.textContent = item.customer;
+                row.elements.seller.textContent = item.seller;
+                row.elements.total.textContent = item.total;
+                return row.container;
+        });
         root.elements.rows.replaceChildren(...nextRows);
     }
 
